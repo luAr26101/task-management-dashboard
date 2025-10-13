@@ -1,12 +1,19 @@
-import { Button } from "./components/ui/button";
-import { cn } from "./lib/utils";
+import { Outlet } from "react-router";
+import Sidebar from "./components/layout/sidebar";
+import TopBar from "./components/layout/topbar";
 
 function App() {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center">
-      <Button variant="link" size="sm" className={cn("cursor-pointer")}>
-        Click me
-      </Button>
+    <div className="bg-background text-foreground flex h-screen">
+      <Sidebar />
+      {/* Main content area */}
+      <div className="flex flex-1 flex-col">
+        <TopBar />
+        <main className="flex-1 overflow-y-auto p-6">
+          <Outlet />
+          {/* React router docs: https://reactrouter.com/start/declarative/routing */}
+        </main>
+      </div>
     </div>
   );
 }
