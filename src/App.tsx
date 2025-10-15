@@ -1,20 +1,22 @@
-import { Outlet } from "react-router";
-import Sidebar from "./components/layout/sidebar";
-import TopBar from "./components/layout/topbar";
+import { BrowserRouter, Route, Routes } from "react-router";
+import PageLayout from "./components/layout/page-layout";
+import Dashboard from "./pages/dashboard";
+import Projects from "./pages/projects";
+import Settings from "./pages/settings";
+import Tasks from "./pages/tasks";
 
 function App() {
   return (
-    <div className="bg-background text-foreground flex h-screen">
-      <Sidebar />
-      {/* Main content area */}
-      <div className="flex flex-1 flex-col">
-        <TopBar />
-        <main className="flex-1 overflow-y-auto p-6">
-          <Outlet />
-          {/* React router docs: https://reactrouter.com/start/declarative/routing */}
-        </main>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<PageLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="projects" element={<Projects />} />
+          <Route path="tasks" element={<Tasks />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

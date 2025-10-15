@@ -1,5 +1,5 @@
 function Dashboard() {
-  return <>Dashboard page</>;
+  return <>Welcome to your Dashboard 🚀</>;
 }
 
 export default Dashboard;
