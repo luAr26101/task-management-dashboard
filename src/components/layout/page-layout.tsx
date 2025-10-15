@@ -14,13 +14,13 @@ function PageLayout() {
       </div>
       {/* Mobile Sidebar */}
       <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-        <SheetContent side="left" className="w-64 p-0">
+        <SheetContent side="right" className="w-64 p-0">
           <Sidebar onNavigate={() => setIsSidebarOpen(false)} />
         </SheetContent>
       </Sheet>
       {/* Main content area */}
       <div className="flex flex-1 flex-col">
-        <TopBar onToggleSidebar={() => setIsSidebarOpen(true)} />
+        <TopBar onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)} />
         <main className="flex-1 overflow-y-auto p-6">
           <Outlet />
           {/* React router docs: https://reactrouter.com/start/declarative/routing */}
