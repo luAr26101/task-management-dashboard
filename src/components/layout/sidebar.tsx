@@ -25,15 +25,20 @@ const navItems = [
   },
 ];
 
-function Sidebar() {
+type SidebarProps = {
+  onNavigate?: () => void;
+};
+
+function Sidebar({ onNavigate }: SidebarProps) {
   return (
-    <aside className="bg-card border-border hidden w-64 flex-col border-r md:flex">
+    <aside className="bg-card md:border-border flex w-full flex-col md:w-64 md:border-r">
       <div className="p-6 text-xl font-semibold">Task Manager</div>
       <nav className="flex flex-col space-y-1 px-2">
         {navItems.map(({ name, icon: Icon, path }) => (
           <NavLink
             key={name}
             to={path}
+            onClick={onNavigate}
             className={({ isActive }) =>
               cn(
                 "flex items-center gap-3 rounded-md px-4 py-2 text-sm font-medium transition-colors",
@@ -43,7 +48,7 @@ function Sidebar() {
               )
             }
           >
-            <Icon className="h-4 w-4" />
+            <Icon className="size-5" />
             {name}
           </NavLink>
         ))}
