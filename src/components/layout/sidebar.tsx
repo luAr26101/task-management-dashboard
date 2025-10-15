@@ -1,6 +1,14 @@
 import { cn } from "@/lib/utils";
-import { CheckSquare, FolderKanban, Home, Settings } from "lucide-react";
+import {
+  CheckSquare,
+  ChevronLeft,
+  ChevronRight,
+  FolderKanban,
+  Home,
+  Settings,
+} from "lucide-react";
 import { NavLink } from "react-router";
+import { Button } from "../ui/button";
 
 const navItems = [
   {
@@ -27,13 +35,40 @@ const navItems = [
 
 type SidebarProps = {
   onNavigate?: () => void;
+  collapsed?: boolean;
+  onToggleCollapse?: () => void;
 };
 
-function Sidebar({ onNavigate }: SidebarProps) {
+function Sidebar({
+  onNavigate,
+  collapsed = false,
+  onToggleCollapse,
+}: SidebarProps) {
   return (
-    <aside className="bg-card md:border-border flex w-full flex-col md:w-64 md:border-r">
-      <div className="p-6 text-xl font-semibold">Task Manager</div>
-      <nav className="flex flex-col space-y-1 px-2">
+    <aside
+      className={cn(
+        "bg-card md:border-border flex w-full flex-col transition-all md:border-r",
+        collapsed ? "items-center md:w-16" : "md:w-64",
+      )}
+    >
+      <div className="flex w-full items-center justify-between p-4">
+        {!collapsed && (
+          <div className="text-lg font-semibold">Task Manager</div>
+        )}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="hidden md:flex"
+          onClick={onToggleCollapse}
+        >
+          {collapsed ? (
+            <ChevronRight className="size-4" />
+          ) : (
+            <ChevronLeft className="size-4" />
+          )}
+        </Button>
+      </div>
+      <nav className="flex w-full flex-col space-y-1 px-2">
         {navItems.map(({ name, icon: Icon, path }) => (
           <NavLink
             key={name}
@@ -41,18 +76,21 @@ function Sidebar({ onNavigate }: SidebarProps) {
             onClick={onNavigate}
             className={({ isActive }) =>
               cn(
-                "flex items-center gap-3 rounded-md px-4 py-2 text-sm font-medium transition-colors",
+                "flex items-center gap-3 rounded-md px-4 py-2 text-sm font-medium transition-colors duration-200",
                 isActive
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:bg-accent hover:text-accent-foreground",
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                collapsed && "justify-center px-0",
               )
             }
+            title={collapsed ? name : undefined}
           >
             <Icon className="size-5" />
-            {name}
+            {!collapsed && <span>{name}</span>}
           </NavLink>
         ))}
       </nav>
+      <div className="mt-auto mb-4" />
     </aside>
   );
 }
