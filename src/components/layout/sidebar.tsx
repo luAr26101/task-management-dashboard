@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { NavLink } from "react-router";
 import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const navItems = [
   {
@@ -69,26 +70,31 @@ function Sidebar({
         </Button>
       </div>
       <nav className="flex w-full flex-col space-y-1 px-2">
-        {navItems.map(({ name, icon: Icon, path }) => (
-          <NavLink
-            key={name}
-            to={path}
-            onClick={onNavigate}
-            className={({ isActive }) =>
-              cn(
-                "flex items-center gap-3 rounded-md px-4 py-2 text-sm font-medium transition-colors duration-200",
-                isActive
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+        {navItems.map(({ name, icon: Icon, path }) => {
+          const link = (
+            <NavLink
+              key={name}
+              to={path}
+              onClick={onNavigate}
+              className={cn(
+                "text-muted-foreground hover:bg-accent hover:text-accent-foreground flex items-center gap-3 rounded-md px-4 py-2 text-sm font-medium transition-colors duration-200",
                 collapsed && "justify-center px-0",
-              )
-            }
-            title={collapsed ? name : undefined}
-          >
-            <Icon className="size-5" />
-            {!collapsed && <span>{name}</span>}
-          </NavLink>
-        ))}
+              )}
+            >
+              <Icon className="size-5" />
+              {!collapsed && <span>{name}</span>}
+            </NavLink>
+          );
+
+          return collapsed ? (
+            <Tooltip key={name}>
+              <TooltipTrigger asChild>{link}</TooltipTrigger>
+              <TooltipContent side="right">{name}</TooltipContent>
+            </Tooltip>
+          ) : (
+            link
+          );
+        })}
       </nav>
       <div className="mt-auto mb-4" />
     </aside>
